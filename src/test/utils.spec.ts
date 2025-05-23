@@ -5,12 +5,6 @@ describe("utils test suite", () => {
 
   beforeEach(() => {
     sut = new StringUtils();
-    console.log("setup")
-  })
-
-  afterEach(() => {
-    // cleaning mocks
-    console.log("Teardown")
   })
 
   describe("toUpperCase", () => {
@@ -25,6 +19,17 @@ describe("utils test suite", () => {
       // Assert
       expect(result).toBe(expectedResult);
     });
+
+    it("should throw error on invalid argument", () => {
+      // Arrange
+      function resultFn() {
+        // Act
+        sut.toUpperCase("")
+      }
+
+      // Assert
+      expect(resultFn).toThrow("Invalid argument!")
+    })
   })
 
   describe("getStringInfo", () => {
