@@ -13,25 +13,56 @@ describe("utils test suite", () => {
     // Assert
     expect(result).toBe(expectedResult);
   });
+});
 
-  it("should return info for valid string", () => {
+describe("getStringInfo", () => {
+  let result: any;
+
+  beforeAll(() => {
     // Arrange
     const sut = getStringInfo;
     const input = "Test-String";
-    const expectedResult = {
-      lowercase: "test-string",
-      uppercase: "TEST-STRING",
-      characters: ["T", "e", "s", "t", "-", "S", "t", "r", "i", "n", "g"],
-      length: 11,
-      extraInfo: {
-        hasHyphen: true,
-      },
-    };
 
     // Act
-    const result = sut(input);
+    result = sut(input);
+  });
+
+  it("return right length", () => {
+    // Arrange
+    const expected = 11;
 
     // Assert
-    expect(result).toEqual(expectedResult);
+    expect(result.length).toBe(expected);
+  });
+
+  it("return right lowercase", () => {
+    // Arrange
+    const expected = "test-string";
+
+    // Assert
+    expect(result.lowercase).toBe(expected);
+  });
+
+  it("return right uppercase", () => {
+    const expected = "TEST-STRING";
+
+    // Assert
+    expect(result.uppercase).toBe(expected);
+  });
+
+  it("return right characters", () => {
+    // Arrange
+    const expected = ["T", "e", "s", "t", "-", "S", "t", "r", "i", "n", "g"];
+
+    // Assert
+    expect(result.characters).toEqual(expected);
+  });
+
+  it("should notice hyphen", () => {
+    // Arrange
+    const expected = true;
+
+    // Assert
+    expect(result.extraInfo.hasHyphen).toBe(expected);
   });
 });
