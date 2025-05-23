@@ -1,7 +1,3 @@
-export function toUpperCase(arg: string) {
-  return arg.toUpperCase();
-}
-
 export type stringInfo = {
   lowercase: string;
   uppercase: string;
@@ -10,17 +6,24 @@ export type stringInfo = {
   extraInfo: Object | undefined;
 };
 
-export function getStringInfo(arg: string): stringInfo {
-  const hasHyphen = arg.includes("-");
-  const extraInfo = {
-    hasHyphen,
-  };
+export class StringUtils {
+  public toUpperCase(arg: string) {
+    return arg.toUpperCase();
+  }
 
-  return {
-    lowercase: arg.toLowerCase(),
-    uppercase: arg.toUpperCase(),
-    characters: Array.from(arg),
-    length: arg.length,
-    extraInfo,
-  };
+  public getStringInfo(arg: string): stringInfo {
+    const hasHyphen = arg.includes("-");
+    const extraInfo = {
+      hasHyphen,
+    };
+  
+    return {
+      lowercase: arg.toLowerCase(),
+      uppercase: arg.toUpperCase(),
+      characters: Array.from(arg),
+      length: arg.length,
+      extraInfo,
+    };
+  }
 }
+
