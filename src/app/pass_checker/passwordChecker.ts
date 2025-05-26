@@ -13,18 +13,33 @@ export class PasswordChecker {
   public checkPassword(password: string): CheckResult {
     let reasons: PasswordErrors[] = [];
 
-    if (password.length < 8) {
-      reasons.push(PasswordErrors.SHORT);
-    }
-    if (password === password.toLowerCase()) {
-      reasons.push(PasswordErrors.NO_UPPER_CASE);
-    }
-    if (password === password.toUpperCase()) {
-      reasons.push(PasswordErrors.NO_LOWER_CASE);
-    }
+    this.checkForLength(password, reasons);
+    this.checkForUppercase(password, reasons);
+    this.checkForLowercase(password, reasons);
+
     return {
       valid: reasons.length > 0 ? false : true,
       reasons,
     };
+  }
+
+  private checkForLength(password: string, reasons: PasswordErrors[]) {
+    const MAX_LENGTH = 8;
+
+    if (password.length < MAX_LENGTH) {
+      reasons.push(PasswordErrors.SHORT);
+    }
+  }
+
+  private checkForUppercase(password: string, reasons: PasswordErrors[]) {
+    if (password === password.toLowerCase()) {
+      reasons.push(PasswordErrors.NO_UPPER_CASE);
+    }
+  }
+
+  private checkForLowercase(password: string, reasons: PasswordErrors[]) {
+    if (password === password.toUpperCase()) {
+      reasons.push(PasswordErrors.NO_LOWER_CASE);
+    }
   }
 }
