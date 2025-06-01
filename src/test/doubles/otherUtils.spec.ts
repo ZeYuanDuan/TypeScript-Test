@@ -1,9 +1,43 @@
 import {
   calculateComplexity,
+  otherStringUtils,
   toUpperCaseWithCB,
 } from '../../app/doubles/otherUtils';
 
 describe('otherUtils test suite', () => {
+  describe('OtherStringUtils tests with spies', () => {
+    let sut: otherStringUtils;
+
+    beforeEach(() => {
+      sut = new otherStringUtils();
+    });
+
+    it('use a spy to track calls', () => {
+      // 追蹤 sut 物件當中的 toUpperCase 方法
+      const toUpperCaseSpy = jest.spyOn(sut, 'toUpperCase');
+      sut.toUpperCase('abc');
+      expect(toUpperCaseSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('use a spy to tracks calls to other module', () => {
+      // 追蹤 console 物件的 log 方法
+      const consoleLogSpy = jest.spyOn(console, 'log');
+      sut.logString('abc');
+      expect(consoleLogSpy).toHaveBeenCalledWith('abc');
+    });
+
+    it('use a spy to replace the implementation of a method', () => {
+      // 照理來說，私有方法無法被 Spy 模擬，但因為我們將 sut 宣稱為 any，
+      // TypeScript 如今無法確認該方法是否為私有，因此不會報錯。
+      // 不過這不是一個推薦做法，只是應急措施。
+      // 我們在此利用 mock 改變方法的實作
+      jest.spyOn(sut as any, 'callExternalService').mockImplementation(() => {
+        console.log('calling mocked implementation');
+      });
+      (sut as any).callExternalService(); // 順利印出被替換的訊息
+    });
+  });
+
   it('Calculate complexity', () => {
     const someInfo = {
       length: 5,

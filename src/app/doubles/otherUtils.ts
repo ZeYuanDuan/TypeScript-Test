@@ -24,3 +24,16 @@ export function toUpperCaseWithCB(
 
   return arg.toUpperCase();
 }
+
+export class otherStringUtils {
+  private callExternalService() {
+    console.log('This is a private method so could not be tested');
+  }
+  public toUpperCase(arg: string) {
+    return arg.toUpperCase();
+  }
+
+  public logString(arg: string) {
+    console.log(arg);
+  }
+}
