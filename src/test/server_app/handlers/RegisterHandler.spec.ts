@@ -66,4 +66,29 @@ describe('RegisterHandler test suite', () => {
       }),
     );
   });
+
+  it('should not register invalid accounts in requests', async () => {
+    request.method = HTTP_METHODS.POST;
+    getRequestBodyMock.mockResolvedValueOnce({});
+
+    await sut.handleRequest();
+
+    expect(responseMock.statusCode).toBe(HTTP_CODES.BAD_REQUEST);
+    expect(responseMock.writeHead).toHaveBeenCalledWith(
+      HTTP_CODES.BAD_REQUEST,
+      { 'Content-Type': 'application/json' },
+    );
+    expect(responseMock.write).toHaveBeenCalledWith(
+      JSON.stringify('userName and password required'),
+    );
+  });
+
+  it('should do nothing for not supported http method', async () => {
+    request.method = HTTP_METHODS.GET;
+    await sut.handleRequest();
+
+    expect(responseMock.writeHead).not.toHaveBeenCalled();
+    expect(responseMock.write).not.toHaveBeenCalled();
+    expect(getRequestBodyMock).not.toHaveBeenCalled();
+  });
 });
